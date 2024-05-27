@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Symfony\Component\DomCrawler\Crawler;
-use Goutte\Client;
+use voku\helper\HtmlDomParser;
+
 
 class ScrappingController extends Controller
 {
@@ -20,25 +21,22 @@ class ScrappingController extends Controller
 
     private function getScrapping($url)
     {
-        $client = new Client();
-        $response = $client->request('GET', $url);
-        $html = $response->html();
-
-        $crawler = new Crawler($html);
-
-        $articleElements = $crawler->filter('ul .isi > li');
-
+        $dom = HtmlDomParser::file_get_html($url);
 
         $articles = [];
-        foreach ($articleElements as $articleElement) {
-            $title = $articleElement->filter('h3 a')->text();
-            $articleURL = $articleElement->filter('h3 a')->attr('href');
-            $content = $articleElement->filter('h4')->text();
+        foreach ($dom->find('li.ptb15') as $articleElement) {
+            $url = $articleElement->find('a', 0)->href;
+            $title = $articleElement->find('h3 a', 0)->plaintext;
+            $description = $articleElement->find('h4', 0)->plaintext;
+            $img = $articleElement->find('img', 0)->src;
+            $date = $articleElement->find('.grey', 0)->plaintext;
 
             $articles[] = [
                 'title' => $title,
-                'url' => $articleURL,
-                'content' => $content
+                'url' => $url,
+                'description' => $description,
+                'date' => $date,
+                'img' => $img,
             ];
         }
 
