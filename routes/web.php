@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ScrappingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,3 +34,5 @@ Route::get('/not-found', function () {
 Route::get('/contact', function () {
     return view('contact');
 })->name('contact');
+
+Route::get('/programmer-junior', [ScrappingController::class, 'index'])->name('programmer-junior');

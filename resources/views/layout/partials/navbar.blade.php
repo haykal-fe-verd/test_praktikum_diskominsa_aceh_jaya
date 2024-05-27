@@ -9,8 +9,8 @@
      <div class="collapse navbar-collapse" id="navbarCollapse">
          <div class="navbar-nav ms-auto py-0">
              <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->is('/') ? 'active' : '' }}">Home</a>
-             <a href="#"
-                 class="nav-item nav-link {{ request()->is('/programmer-junior') ? 'active' : '' }}">Programmer
+             <a href="{{ route('programmer-junior') }}"
+                 class="nav-item nav-link {{ request()->is('programmer-junior') ? 'active' : '' }}">Programmer
                  Junior</a>
              <a href="{{ route('about') }}"
                  class="nav-item nav-link {{ request()->is('about') ? 'active' : '' }}">About</a>
